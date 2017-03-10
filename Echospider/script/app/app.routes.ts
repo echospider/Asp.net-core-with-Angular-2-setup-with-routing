@@ -2,7 +2,7 @@
 import { Routes, RouterModule, Router } from '@angular/router';
 
 //Import components
-//import { AppComponent } from './app.component';
+import { AppComponent } from './app.component';
 import { HomeComponent } from './home.component';
 import { AboutComponent } from './about.component';
 import { ContactComponent } from './contact.component';
@@ -10,31 +10,34 @@ import { SignupComponent } from './signup.component';
 import { LoginComponent } from './login.component';
 import { PageNotFoundComponent } from './pagenotfound.component';
 
+import { AuthGuard } from './_guards/auth.guard';
+
 // Route Configuration
 const routes: Routes = [
-    //{ path: 'home', component: AppComponent },
-    //{ path: 'Index.html', redirectTo: '/home', pathMatch: 'full' },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    //{ path: '**', component: PageNotFoundComponent },
+    { path: '', component: AppComponent },
+    //{ path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent, },
-    { path: 'about', component: AboutComponent },
-    { path: 'contact', component: ContactComponent },
+    { path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
+    { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
     { path: 'signup', component: SignupComponent },
-    { path: 'login', component: LoginComponent }
+    { path: 'login', component: LoginComponent },
+
+    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 ];
 
-@NgModule({
-    imports: [
-        RouterModule.forRoot(routes)
-    ],
-    exports: [
-        RouterModule
-    ]
-})
+//@NgModule({
+//    imports: [
+//        RouterModule.forRoot(routes)
+//    ],
+//    exports: [
+//        RouterModule
+//    ]
+//})
 
 
-//export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
 
-export class AppRoutingModule {
+//export class AppRoutingModule {
     
-}
+//}

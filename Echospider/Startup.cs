@@ -38,22 +38,18 @@ namespace Echospider
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    //app.UseBrowserLink();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
             // app-specific root page(Index.html)
-            //DefaultFilesOptions options = new DefaultFilesOptions();
-            //options.DefaultFileNames.Clear();
-            //options.DefaultFileNames.Add("/Index.html");
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("/Index.html");
 
 
             //app.Use(async (context, next) =>
@@ -74,6 +70,8 @@ namespace Echospider
             //        name: "default",
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
+
+            app.UseMvc();
         }
     }
 }

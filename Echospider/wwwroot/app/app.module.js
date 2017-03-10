@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "./app.component", "@angular/common", "./home.component", "./about.component", "./contact.component", "./signup.component", "./login.component", "./pagenotfound.component", "./app.routes"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/platform-browser", "@angular/forms", "@angular/http", "./app.component", "@angular/common", "./home.component", "./about.component", "./contact.component", "./signup.component", "./login.component", "./pagenotfound.component", "./_guards/auth.guard", "./services/user.service", "./services/authentication.service", "./app.routes"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, platform_browser_1, forms_1, http_1, app_component_1, common_1, home_component_1, about_component_1, contact_component_1, signup_component_1, login_component_1, pagenotfound_component_1, app_routes_1, AppModule;
+    var core_1, platform_browser_1, forms_1, http_1, app_component_1, common_1, http_2, home_component_1, about_component_1, contact_component_1, signup_component_1, login_component_1, pagenotfound_component_1, auth_guard_1, user_service_1, authentication_service_1, app_routes_1, AppModule;
     return {
         setters: [
             function (core_1_1) {
@@ -21,6 +21,7 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+                http_2 = http_1_1;
             },
             function (app_component_1_1) {
                 app_component_1 = app_component_1_1;
@@ -46,6 +47,15 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
             function (pagenotfound_component_1_1) {
                 pagenotfound_component_1 = pagenotfound_component_1_1;
             },
+            function (auth_guard_1_1) {
+                auth_guard_1 = auth_guard_1_1;
+            },
+            function (user_service_1_1) {
+                user_service_1 = user_service_1_1;
+            },
+            function (authentication_service_1_1) {
+                authentication_service_1 = authentication_service_1_1;
+            },
             function (app_routes_1_1) {
                 app_routes_1 = app_routes_1_1;
             }
@@ -59,8 +69,10 @@ System.register(["@angular/core", "@angular/platform-browser", "@angular/forms",
             AppModule = __decorate([
                 core_1.NgModule({
                     declarations: [app_component_1.AppComponent, home_component_1.HomeComponent, about_component_1.AboutComponent, contact_component_1.ContactComponent, signup_component_1.SignupComponent, login_component_1.LoginComponent, pagenotfound_component_1.PageNotFoundComponent],
-                    imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, app_routes_1.AppRoutingModule],
-                    providers: [{ provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
+                    imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, app_routes_1.routing],
+                    providers: [{ provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy },
+                        auth_guard_1.AuthGuard, user_service_1.UserService, authentication_service_1.AuthenticationService, http_2.BaseRequestOptions,
+                    ],
                     bootstrap: [app_component_1.AppComponent]
                 })
             ], AppModule);

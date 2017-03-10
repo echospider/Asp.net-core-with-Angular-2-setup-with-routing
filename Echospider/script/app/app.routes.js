@@ -1,20 +1,14 @@
-System.register(["@angular/core", "@angular/router", "./home.component", "./about.component", "./contact.component", "./signup.component", "./login.component"], function (exports_1, context_1) {
+System.register(["@angular/router", "./app.component", "./home.component", "./about.component", "./contact.component", "./signup.component", "./login.component", "./_guards/auth.guard"], function (exports_1, context_1) {
     "use strict";
-    var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, home_component_1, about_component_1, contact_component_1, signup_component_1, login_component_1, routes, AppRoutingModule;
+    var router_1, app_component_1, home_component_1, about_component_1, contact_component_1, signup_component_1, login_component_1, auth_guard_1, routes, routing;
     return {
         setters: [
-            function (core_1_1) {
-                core_1 = core_1_1;
-            },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (app_component_1_1) {
+                app_component_1 = app_component_1_1;
             },
             function (home_component_1_1) {
                 home_component_1 = home_component_1_1;
@@ -30,38 +24,35 @@ System.register(["@angular/core", "@angular/router", "./home.component", "./abou
             },
             function (login_component_1_1) {
                 login_component_1 = login_component_1_1;
+            },
+            function (auth_guard_1_1) {
+                auth_guard_1 = auth_guard_1_1;
             }
         ],
         execute: function () {
             // Route Configuration
             routes = [
-                //{ path: 'home', component: AppComponent },
-                //{ path: 'Index.html', redirectTo: '/home', pathMatch: 'full' },
-                { path: '', redirectTo: '/home', pathMatch: 'full' },
-                //{ path: '**', component: PageNotFoundComponent },
+                { path: '', component: app_component_1.AppComponent },
+                //{ path: '', component: HomeComponent },
                 { path: 'home', component: home_component_1.HomeComponent, },
-                { path: 'about', component: about_component_1.AboutComponent },
-                { path: 'contact', component: contact_component_1.ContactComponent },
+                { path: 'about', component: about_component_1.AboutComponent, canActivate: [auth_guard_1.AuthGuard] },
+                { path: 'contact', component: contact_component_1.ContactComponent, canActivate: [auth_guard_1.AuthGuard] },
                 { path: 'signup', component: signup_component_1.SignupComponent },
-                { path: 'login', component: login_component_1.LoginComponent }
+                { path: 'login', component: login_component_1.LoginComponent },
+                // otherwise redirect to home
+                { path: '**', redirectTo: '' }
             ];
-            //export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
-            AppRoutingModule = (function () {
-                function AppRoutingModule() {
-                }
-                return AppRoutingModule;
-            }());
-            AppRoutingModule = __decorate([
-                core_1.NgModule({
-                    imports: [
-                        router_1.RouterModule.forRoot(routes)
-                    ],
-                    exports: [
-                        router_1.RouterModule
-                    ]
-                })
-            ], AppRoutingModule);
-            exports_1("AppRoutingModule", AppRoutingModule);
+            //@NgModule({
+            //    imports: [
+            //        RouterModule.forRoot(routes)
+            //    ],
+            //    exports: [
+            //        RouterModule
+            //    ]
+            //})
+            exports_1("routing", routing = router_1.RouterModule.forRoot(routes));
+            //export class AppRoutingModule {
+            //} 
         }
     };
 });

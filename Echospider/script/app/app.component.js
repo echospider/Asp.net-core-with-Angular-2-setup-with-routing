@@ -22,6 +22,7 @@ System.register(["@angular/core"], function (exports_1, context_1) {
             }());
             AppComponent = __decorate([
                 core_1.Component({
+                    //moduleId: module.id,
                     selector: 'core-app',
                     templateUrl: './app/app.component.html',
                     styleUrls: ['./app/app.component.css']

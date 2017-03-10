@@ -9,18 +9,12 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [
-                {
-                    cwd: 'Script/app/',
-                    expand: true,
-                    src: ['**/*.js', '**/*.html', '**/*.css'],
-                    dest: 'wwwroot/app/'
-                    },
                     {
-                    cwd: 'Script/environments/',
-                    expand: true,
-                    src: ['**/*.js', '**/*.html'],
-                    dest: 'wwwroot/environments/'
-                },
+                        cwd: 'Script/app/',
+                        expand: true,
+                        src: ['**/*.js', '**/*.html', '**/*.css'],
+                        dest: 'wwwroot/app/'
+                    },
                     {
                         cwd: 'Script/',
                         expand: true,
@@ -40,7 +34,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-copy");
-    grunt.registerTask('All', ['clean', 'copy', 'watch']);
-    grunt.registerTask('Clean All', ['clean']);
+    grunt.registerTask('All', ['copy', 'watch']);
+    //grunt.registerTask('Clean All', ['clean']);
+    grunt.registerTask('Copy-All', ['copy']);
 };
 
