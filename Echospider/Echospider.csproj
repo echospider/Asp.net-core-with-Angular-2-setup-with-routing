@@ -10,10 +10,15 @@
 
   <ItemGroup>
     <Content Include="wwwroot\img\ajax_small.gif" />
+    <Content Include="wwwroot\libs\angular-loading-bar\loading-bar.css" />
+    <Content Include="wwwroot\libs\angular-loading-bar\loading-bar.js" />
+    <Content Include="wwwroot\libs\angular-loading-bar\loading-bar.min.css" />
+    <Content Include="wwwroot\libs\angular-loading-bar\loading-bar.min.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />

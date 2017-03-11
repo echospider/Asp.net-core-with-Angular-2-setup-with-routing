@@ -22,6 +22,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './services/user.service';
 import { AuthenticationService } from './services/authentication.service';
 
+//Loading bar need to implement
 
 
 import { routing } from './app.routes';

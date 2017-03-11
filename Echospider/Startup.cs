@@ -8,11 +8,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 namespace Echospider
 {
     public class Startup
     {
+        // secretKey contains a secret passphrase only your server knows
+        //string secretKey = "mysupersecret_secretkey!123";
+        //string signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+        //string publicClientId = "self";
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -24,6 +30,7 @@ namespace Echospider
         }
 
         public IConfigurationRoot Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -70,6 +77,9 @@ namespace Echospider
             //        name: "default",
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
+
+            
+
 
             app.UseMvc();
         }

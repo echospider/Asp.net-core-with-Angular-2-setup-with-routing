@@ -17,6 +17,7 @@ namespace Echospider.Controllers
         {
             if(string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Password))
             {
+                
                 return Ok(new { success = false, message = "Username or password should not be blank" });
             }
             else if(user.UserName.Length == 0 || user.Password.Length == 0)
@@ -25,10 +26,12 @@ namespace Echospider.Controllers
             }
             else if(user.UserName == "test" && user.Password == "test")
             {
+                Response.Headers.Add("x-token", "test-token");
                 return Ok(new { success = true, token = DateTime.UtcNow.ToString("ddMMyyyyhhmmss") });
             }
             else
             {
+                
                 return Ok(new { success = false, message = "Username or password is incorrect" });
             }
         }
@@ -36,6 +39,7 @@ namespace Echospider.Controllers
         [HttpGet("GetUsers"), Produces("application/json")]
         public JsonResult Users()
         {
+
             return new JsonResult(new string[] { "user", "admin" });
         }
         // GET: api/values
