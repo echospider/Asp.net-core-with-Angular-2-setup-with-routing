@@ -34,7 +34,12 @@ System.register(["@angular/core", "@angular/router", "./services/authentication.
                 }
                 LoginComponent.prototype.ngOnInit = function () {
                     // reset login status
-                    this.authenticationService.logout();
+                    if (this.authenticationService.loggedIn) {
+                        this.authenticationService.logout();
+                    }
+                    //else {
+                    //    location.reload();
+                    //}
                 };
                 LoginComponent.prototype.login = function () {
                     var _this = this;

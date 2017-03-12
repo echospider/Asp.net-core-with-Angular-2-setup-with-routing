@@ -19,7 +19,7 @@ export class UserService {
         let options = new RequestOptions({ headers: headers });
 
         // get users from api
-        return this.http.get('/api/user/users', options)
+        return this.http.get('/api/user/getusers', options)
             .map((response: Response) => response.json());
     }
 }

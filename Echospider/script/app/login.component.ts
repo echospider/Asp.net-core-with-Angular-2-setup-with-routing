@@ -20,7 +20,14 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         // reset login status
-        this.authenticationService.logout();
+        if (this.authenticationService.loggedIn) {
+            this.authenticationService.logout();
+            //this.router.navigate(['/']);
+        }
+        //else {
+        //    location.reload();
+        //}
+        
     }
 
     login() {
@@ -31,6 +38,7 @@ export class LoginComponent implements OnInit {
                 if (result === true) {
                     // login successful
                     this.router.navigate(['/']);
+                    //location.reload(true);
                 } else {
                     // login failed
                     this.error = 'Username or password is incorrect';

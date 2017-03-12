@@ -28,28 +28,40 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                     this.http = http;
                     // set token if saved in local storage
                     var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                    this.token = currentUser && currentUser.token;
+                    if (currentUser != null) {
+                        this.token = currentUser.token;
+                        this.loggedIn = true;
+                    }
                 }
                 AuthenticationService.prototype.login = function (username, password) {
                     var _this = this;
-                    console.log("username:" + username + " password:" + password);
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    //let _user = new User({ 'username': username });
-                    return this.http.post('/api/user/authenticate', JSON.stringify({ username: username, password: password }), { headers: headers })
+                    //console.log("username:" + username + " password:" + password);
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    var body = new http_1.URLSearchParams();
+                    body.set('username', username);
+                    body.set('password', password);
+                    //let body = JSON.stringify({ username: username, password: password });
+                    //var headers = new Headers();
+                    //headers.append('Content-Type', 'application/json');
+                    return this.http.post('/api/user/authenticate', body, headers)
                         .map(function (response) {
                         // login successful if there's a jwt token in the response
-                        var token = response.json() && response.json().token;
-                        console.log(token);
-                        if (token) {
+                        var access_token = response.json() && response.json().access_token;
+                        var expires_in = response.json() && response.json().access_token;
+                        if (access_token) {
                             // set token property
-                            _this.token = token;
+                            _this.token = access_token;
+                            _this.loggedIn = true;
                             // store username and jwt token in local storage to keep user logged in between page refreshes
-                            localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
+                            localStorage.setItem('currentUser', JSON.stringify({ username: username, token: access_token, expires_in: expires_in }));
                             // return true to indicate successful login
                             return true;
                         }
                         else {
                             // return false to indicate failed login
+                            _this.loggedIn = false;
                             return false;
                         }
                     });
@@ -57,7 +69,12 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map"], fun
                 AuthenticationService.prototype.logout = function () {
                     // clear token remove user from local storage to log user out
                     this.token = null;
-                    localStorage.removeItem('currentUser');
+                    this.loggedIn = false;
+                    if (localStorage.length > 0) {
+                        if (localStorage.getItem("currentUser")) {
+                            localStorage.removeItem('currentUser');
+                        }
+                    }
                 };
                 return AuthenticationService;
             }());

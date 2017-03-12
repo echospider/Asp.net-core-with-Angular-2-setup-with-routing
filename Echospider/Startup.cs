@@ -10,13 +10,16 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Echospider.Models;
+using Microsoft.Extensions.Options;
+
 namespace Echospider
 {
     public class Startup
     {
         // secretKey contains a secret passphrase only your server knows
-        //string secretKey = "mysupersecret_secretkey!123";
-        //string signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+        private const string SecretKey = "!@mysupersecret_secretkey#@!1";
+        //readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
         //string publicClientId = "self";
 
         public Startup(IHostingEnvironment env)
@@ -58,27 +61,46 @@ namespace Echospider
             options.DefaultFileNames.Clear();
             options.DefaultFileNames.Add("/Index.html");
 
+            // Add JWT generation endpoint:
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+            var tokenProviderOptions = new TokenProviderOptions
+            {
+                Audience = "ExampleAudience",
+                Issuer = "ExampleIssuer",
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+            };
 
-            //app.Use(async (context, next) =>
-            //{
-            //    await next();
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(tokenProviderOptions));
 
-            //    if (context.Response.StatusCode == 404
-            //        && !Path.HasExtension(context.Request.Path.Value))
-            //    {
-            //        context.Request.Path = "/index.html";
-            //        await next();
-            //    }
-            //});
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
 
-            
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = "ExampleIssuer",
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = "ExampleAudience",
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                // If you want to allow a certain amount of clock drift, set that here:
+                ClockSkew = TimeSpan.Zero
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters
+            });
 
 
             app.UseMvc();

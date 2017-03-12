@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Compiler } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
+//import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -16,6 +18,7 @@ import { AboutComponent } from './about.component';
 import { ContactComponent } from './contact.component';
 import { SignupComponent } from './signup.component';
 import { LoginComponent } from './login.component';
+import { UsersComponent } from './users.component';
 import { PageNotFoundComponent } from './pagenotfound.component';
 
 import { AuthGuard } from './_guards/auth.guard';
@@ -32,7 +35,7 @@ import { routing } from './app.routes';
 //];
 
 @NgModule({
-    declarations: [AppComponent, HomeComponent, AboutComponent, ContactComponent, SignupComponent, LoginComponent, PageNotFoundComponent],
+    declarations: [AppComponent, HomeComponent, AboutComponent, ContactComponent, SignupComponent, LoginComponent, UsersComponent, PageNotFoundComponent],
     imports: [BrowserModule, FormsModule, HttpModule, routing],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
         AuthGuard, UserService, AuthenticationService, BaseRequestOptions,
@@ -44,4 +47,11 @@ import { routing } from './app.routes';
     ], //For # tag url eg: http://localhost/#/home
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+
+export class AppModule {
+    constructor(private _compilerCahche: Compiler) {
+        _compilerCahche.clearCache();
+        
+    }
+}

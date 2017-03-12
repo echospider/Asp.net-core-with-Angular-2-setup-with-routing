@@ -7,10 +7,12 @@
             <li><a href="#" [routerLink]="['home']" routerLinkActive="active">Home</a></li>
             <li><a href="#" [routerLink]="['about']" routerLinkActive="active">About</a></li>
             <li><a href="#" [routerLink]="['contact']" routerLinkActive="active">Contact</a></li>
+            <li><a href="#" [routerLink]="['users']" routerLinkActive="active">Users</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" [routerLink]="['signup']" routerLinkActive="active"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#" [routerLink]="['login']" routerLinkActive="active"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="#" [routerLink]="['signup']" routerLinkActive="active" *ngIf="!loggedIn"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#" [routerLink]="['login']" routerLinkActive="active" *ngIf="!loggedIn"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="#" [routerLink]="['login']" routerLinkActive="active" *ngIf="loggedIn"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
         </ul>
     </div>
 </nav>

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using System.Security.Claims;
 using Echospider.Models;
+using Microsoft.AspNetCore.Authorization;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Echospider.Controllers
@@ -26,8 +31,8 @@ namespace Echospider.Controllers
             }
             else if(user.UserName == "test" && user.Password == "test")
             {
-                Response.Headers.Add("x-token", "test-token");
-                return Ok(new { success = true, token = DateTime.UtcNow.ToString("ddMMyyyyhhmmss") });
+                //var token = TokenProviderMiddleware.GetIdentity("test", "test");
+                return Ok(new { success = true });
             }
             else
             {
@@ -36,11 +41,25 @@ namespace Echospider.Controllers
             }
         }
 
-        [HttpGet("GetUsers"), Produces("application/json")]
+        [HttpGet("GetUsers"), Produces("application/json"), Authorize]
         public JsonResult Users()
         {
-
-            return new JsonResult(new string[] { "user", "admin" });
+            List<User> _users = new List<User>
+            {
+                new User() { FirstName = "Anup", LastName = "Pal" },
+                new User() { FirstName = "Anuj", LastName = "Pal" },
+                new User() { FirstName = "Ram", LastName = "Pal" },
+                new User() { FirstName = "Sam", LastName = "Pal" },
+                new User() { FirstName = "Jadu", LastName = "Pal" },
+                new User() { FirstName = "Madhu", LastName = "Pal" },
+                new User() { FirstName = "Joy", LastName = "Pal" },
+                new User() { FirstName = "Raj", LastName = "Pal" },
+                new User() { FirstName = "Pradip", LastName = "Pal" },
+                new User() { FirstName = "Niladri", LastName = "Pal" },
+                new User() { FirstName = "Prajat", LastName = "Pal" },
+                new User() { FirstName = "Shyam", LastName = "Pal" }
+            };
+            return new JsonResult(_users);
         }
         // GET: api/values
         [HttpGet]
