@@ -92,7 +92,7 @@ namespace Echospider
                 ValidateLifetime = true,
 
                 // If you want to allow a certain amount of clock drift, set that here:
-                ClockSkew = TimeSpan.Zero
+                ClockSkew = TimeSpan.FromDays(365)
             };
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
