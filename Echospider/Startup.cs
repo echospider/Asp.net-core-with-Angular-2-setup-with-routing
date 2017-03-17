@@ -53,13 +53,12 @@ namespace Echospider
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            
 
             // app-specific root page(Index.html)
-            DefaultFilesOptions options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("/Index.html");
+            //DefaultFilesOptions options = new DefaultFilesOptions();
+            //options.DefaultFileNames.Clear();
+            //options.DefaultFileNames.Add("/Index.html");
 
             // Add JWT generation endpoint:
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
@@ -68,6 +67,7 @@ namespace Echospider
                 Audience = "ExampleAudience",
                 Issuer = "ExampleIssuer",
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+                Expiration = TimeSpan.FromDays(365)
             };
 
             app.UseMiddleware<TokenProviderMiddleware>(Options.Create(tokenProviderOptions));
@@ -92,7 +92,7 @@ namespace Echospider
                 ValidateLifetime = true,
 
                 // If you want to allow a certain amount of clock drift, set that here:
-                ClockSkew = TimeSpan.FromDays(365)
+                ClockSkew = TimeSpan.Zero
             };
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
@@ -103,7 +103,17 @@ namespace Echospider
             });
 
 
-            app.UseMvc();
+            //app.UseMvc();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Login}/{action=Index}/{id?}");
+            });
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }

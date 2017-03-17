@@ -46,6 +46,7 @@ import { routing } from './app.routes';
         //BaseRequestOptions
     ], //For # tag url eg: http://localhost/#/home
     bootstrap: [AppComponent]
+    //bootstrap: [LoginComponent]
 })
 
 

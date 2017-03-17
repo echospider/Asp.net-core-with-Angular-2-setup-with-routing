@@ -40,6 +40,7 @@ System.register(["@angular/router", "./home.component", "./about.component", "./
                 { path: 'users', component: users_component_1.UsersComponent, canActivate: [auth_guard_1.AuthGuard] },
                 { path: 'signup', component: signup_component_1.SignupComponent },
                 { path: 'login', component: login_component_1.LoginComponent },
+                { path: 'login1', redirectTo: 'login' },
                 // otherwise redirect to home
                 { path: '**', redirectTo: '' }
             ];

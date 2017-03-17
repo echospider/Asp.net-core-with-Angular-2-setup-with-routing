@@ -33,11 +33,18 @@ System.register(["@angular/core", "@angular/http", "rxjs/add/operator/map", "../
                 }
                 UserService.prototype.getUsers = function () {
                     // add authorization header with jwt token
-                    var headers = new http_1.Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-                    var options = new http_1.RequestOptions({ headers: headers });
+                    //let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+                    //let options = new RequestOptions({ headers: headers });
                     // get users from api
-                    return this.http.get('/api/user/getusers', options)
-                        .map(function (response) { return response.json(); });
+                    return this.http.get('/api/user/getusers', this.jwt()).map(function (response) { return response.json(); });
+                };
+                UserService.prototype.jwt = function () {
+                    // create authorization header with jwt token
+                    //let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                    if (this.authenticationService.loggedIn) {
+                        var headers = new http_1.Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+                        return new http_1.RequestOptions({ headers: headers });
+                    }
                 };
                 return UserService;
             }());

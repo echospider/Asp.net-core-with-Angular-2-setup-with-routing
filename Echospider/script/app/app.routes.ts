@@ -23,7 +23,7 @@ const routes: Routes = [
     { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
-
+    { path: 'login1', redirectTo: 'login' },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

@@ -25,13 +25,13 @@ System.register(["@angular/core", "@angular/router"], function (exports_1, conte
                 function AuthGuard(router) {
                     this.router = router;
                 }
-                AuthGuard.prototype.canActivate = function () {
+                AuthGuard.prototype.canActivate = function (route, state) {
                     if (localStorage.getItem('currentUser')) {
                         // logged in so return true
                         return true;
                     }
-                    // not logged in so redirect to login page
-                    this.router.navigate(['/login']);
+                    // not logged in so redirect to login page with the return url
+                    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
                     return false;
                 };
                 return AuthGuard;

@@ -25,7 +25,8 @@ System.register(["@angular/core", "@angular/router", "./services/authentication.
         ],
         execute: function () {
             LoginComponent = (function () {
-                function LoginComponent(router, authenticationService) {
+                function LoginComponent(route, router, authenticationService) {
+                    this.route = route;
                     this.router = router;
                     this.authenticationService = authenticationService;
                     this.model = {};
@@ -34,22 +35,27 @@ System.register(["@angular/core", "@angular/router", "./services/authentication.
                 }
                 LoginComponent.prototype.ngOnInit = function () {
                     // reset login status
-                    if (this.authenticationService.loggedIn) {
-                        this.authenticationService.logout();
-                    }
-                    //else {
-                    //    location.reload();
+                    //if (this.authenticationService.loggedIn) {
+                    this.authenticationService.logout();
+                    //this.router.navigate(['/home']);
+                    // get return url from route parameters or default to '/'
+                    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+                    console.log("returnUrl: " + this.returnUrl);
                     //}
                 };
                 LoginComponent.prototype.login = function () {
                     var _this = this;
-                    console.log(this.model.username + " " + this.model.password);
+                    //console.log(this.model.username + " " + this.model.password);
                     this.loading = true;
+                    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+                    console.log("returnUrl: " + this.returnUrl);
                     this.authenticationService.login(this.model.username, this.model.password)
                         .subscribe(function (result) {
                         if (result === true) {
                             // login successful
-                            _this.router.navigate(['/home']);
+                            //this.router.navigate(['/home']);
+                            //this.router.navigate([this.returnUrl]);
+                            window.location.href = '/login';
                         }
                         else {
                             // login failed
@@ -66,7 +72,8 @@ System.register(["@angular/core", "@angular/router", "./services/authentication.
                     selector: 'login',
                     templateUrl: './app/login.component.html'
                 }),
-                __metadata("design:paramtypes", [router_1.Router,
+                __metadata("design:paramtypes", [router_1.ActivatedRoute,
+                    router_1.Router,
                     authentication_service_1.AuthenticationService])
             ], LoginComponent);
             exports_1("LoginComponent", LoginComponent);
