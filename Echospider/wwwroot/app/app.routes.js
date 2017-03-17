@@ -33,7 +33,7 @@ System.register(["@angular/router", "./home.component", "./about.component", "./
             // Route Configuration
             routes = [
                 //{ path: '', component: AppComponent },
-                //{ path: '', component: HomeComponent },
+                { path: '', redirectTo: 'home', pathMatch: 'full' },
                 { path: 'home', component: home_component_1.HomeComponent, },
                 { path: 'about', component: about_component_1.AboutComponent, canActivate: [auth_guard_1.AuthGuard] },
                 { path: 'contact', component: contact_component_1.ContactComponent, canActivate: [auth_guard_1.AuthGuard] },

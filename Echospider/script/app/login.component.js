@@ -49,7 +49,7 @@ System.register(["@angular/core", "@angular/router", "./services/authentication.
                         .subscribe(function (result) {
                         if (result === true) {
                             // login successful
-                            _this.router.navigate(['/']);
+                            _this.router.navigate(['/home']);
                         }
                         else {
                             // login failed
